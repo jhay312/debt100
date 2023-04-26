@@ -20,17 +20,6 @@ namespace SpriteKind {
     export const kinenemy2 = SpriteKind.create()
     export const Gambler = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Money, function (sprite, otherSprite) {
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(10)
-    quest_3()
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    quest_2()
-    info.changeScoreBy(-10)
-    info.changeLifeBy(-1)
-})
 function kin_quest_6 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     sprites.destroyAllSpritesOfKind(SpriteKind.Projectile, effects.spray, 100)
@@ -779,22 +768,6 @@ function quest_8 () {
     myEnemy.setPosition(0, 15)
     myEnemy.follow(MONEY, 95)
 }
-sprites.onDestroyed(SpriteKind.money3, function (sprite) {
-    quest_6()
-})
-sprites.onOverlap(SpriteKind.enemy2, SpriteKind.money4, function (sprite, otherSprite) {
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(-50)
-    info.changeLifeBy(-2)
-    game.showLongText("try it again", DialogLayout.Top)
-    quest_5()
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.money4, function (sprite, otherSprite) {
-    sprites.destroy(myEnemy, effects.disintegrate, 100)
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(5)
-    quest_7()
-})
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     MC.y += -20
     pause(100)
@@ -1139,12 +1112,29 @@ function quest_2 () {
     }
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.kinenemy2, function (sprite, otherSprite) {
+    game.showLongText("what a headache... this is all your fault", DialogLayout.Top)
+    game.showLongText("hey ghost shut up", DialogLayout.Bottom)
+    game.showLongText("kid lets play rock paper scissors!!!", DialogLayout.Bottom)
+    game.showLongText("if you win I'll give you 100 we can play for as many times as you want", DialogLayout.Bottom)
+    game.showLongText("if I win we add 100 to your debt.", DialogLayout.Bottom)
+    game.showLongText("Ready?", DialogLayout.Bottom)
+    story.showPlayerChoices("yes", "yes")
+    sprites.destroy(myEnemy, effects.disintegrate, 100)
+    sprites.destroy(MC, effects.disintegrate, 100)
+    info.changeScoreBy(0)
+    kin_quest_7()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.money6, function (sprite, otherSprite) {
+    sprites.destroy(myEnemy, effects.disintegrate, 100)
     sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(-50)
-    info.changeLifeBy(-2)
-    game.showLongText("wow he hit you pretty hard.", DialogLayout.Top)
-    game.showLongText("all the way back to level 2 huh", DialogLayout.Top)
-    quest_2()
+    info.changeScoreBy(5)
+    quest_5()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.money4, function (sprite, otherSprite) {
+    sprites.destroy(myEnemy, effects.disintegrate, 100)
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    info.changeScoreBy(5)
+    quest_7()
 })
 function quest_5 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
@@ -1562,25 +1552,21 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.enemy5, function (sprite, otherS
     info.changeScoreBy(-800)
     quest_2()
 })
-info.onLifeZero(function () {
-    game.gameOver(false)
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.money3, function (sprite, otherSprite) {
     sprites.destroy(myEnemy, effects.disintegrate, 100)
     sprites.destroy(MONEY, effects.disintegrate, 100)
     info.changeScoreBy(10)
 })
-sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Money, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Money, function (sprite, otherSprite) {
     sprites.destroy(MONEY, effects.disintegrate, 100)
-    quest_2()
-    info.changeScoreBy(-10)
+    info.changeScoreBy(10)
+    quest_3()
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.enemy4, function (sprite, otherSprite) {
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    sprites.destroy(MC, effects.disintegrate, 100)
+sprites.onOverlap(SpriteKind.Player, SpriteKind.money8, function (sprite, otherSprite) {
     sprites.destroy(myEnemy, effects.disintegrate, 100)
-    info.changeScoreBy(5)
-    quest_5()
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    info.changeScoreBy(10)
+    quest_2()
 })
 function quest_3 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.NPC)
@@ -2173,6 +2159,11 @@ function quest_3 () {
     myEnemy.setPosition(-1, 0)
     myEnemy.follow(MONEY, 40)
 }
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Money, function (sprite, otherSprite) {
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    quest_2()
+    info.changeScoreBy(-10)
+})
 function quest_4 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.NPC)
     sprites.destroyAllSpritesOfKind(SpriteKind.Money, effects.spray, 100)
@@ -3180,19 +3171,127 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.enemy2, function (sprite, otherS
     quest_2()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Gambler, function (sprite, otherSprite) {
-    game.showLongText("what a headache... this is all your fault", DialogLayout.Top)
-    game.showLongText("hey ghost shut up", DialogLayout.Bottom)
-    game.showLongText("kid lets play rock paper scissors!!!", DialogLayout.Bottom)
-    game.showLongText("if you win I'll give you 1 million we can play for as many times as you want", DialogLayout.Bottom)
-    game.showLongText("if I win we add 1 million to your debt.", DialogLayout.Bottom)
-    sprites.destroy(myEnemy, effects.disintegrate, 100)
-    sprites.destroy(MC, effects.disintegrate, 100)
-    info.changeScoreBy(0)
-    kin_quest_7()
+    if (controller.A.isPressed()) {
+        story.printText("BEGIN", 78, 50, 15, 5, story.TextSpeed.VeryFast)
+        story.showPlayerChoices("rock", "paper", "scissors")
+        pause(100)
+    } else if (story.checkLastAnswer("rock")) {
+        game.showLongText("Rock", DialogLayout.Top)
+        rps = randint(1, 3)
+        if ((1 == 1) < (rps == 3)) {
+            kin_quest_7()
+            info.changeScoreBy(-100)
+        } else if (1 == 1 == (rps == 1)) {
+            kin_quest_7()
+            info.changeScoreBy(0)
+        } else if ((1 == 1) > (rps == 2)) {
+            kin_quest_7()
+            info.changeScoreBy(100)
+        }
+    } else if (story.checkLastAnswer("paper")) {
+        game.showLongText("paper", DialogLayout.Top)
+        if ((2 == 2) < (rps == 1)) {
+            kin_quest_7()
+            info.changeScoreBy(-100)
+        } else if (2 == 2 == (rps == 2)) {
+            kin_quest_7()
+            info.changeScoreBy(0)
+        } else if ((2 == 2) > (rps == 3)) {
+            kin_quest_7()
+            info.changeScoreBy(100)
+        }
+    } else if (story.checkLastAnswer("scissors")) {
+        rps = randint(1, 3)
+        if ((1 == 1) < (rps == 2)) {
+            kin_quest_7()
+            info.changeScoreBy(-100)
+        } else if (1 == 1 == (rps == 1)) {
+            kin_quest_7()
+            info.changeScoreBy(0)
+        } else if ((1 == 1) > (rps == 3)) {
+            kin_quest_7()
+            info.changeScoreBy(100)
+        }
+    }
 })
-info.onScore(0, function () {
-    game.gameOver(true)
-    effects.none.endScreenEffect()
+controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    MC,
+    [img`
+        . . . . f f f f f f . . . . . . 
+        . . . f 2 f e e e e f f . . . . 
+        . . f 2 2 2 f e e e e f f . . . 
+        . . f e e e e f f e e e f . . . 
+        . f e 2 2 2 2 e e f f f f . . . 
+        . f 2 e f f f f 2 2 2 e f . . . 
+        . f f f e e e f f f f f f f . . 
+        . f e e 4 4 f b e 4 4 e f f . . 
+        . . f e d d f 1 4 d 4 e e f . . 
+        . . . f d d d d 4 e e e f . . . 
+        . . . f e 4 4 4 e e f f . . . . 
+        . . . f 2 2 2 e d d 4 . . . . . 
+        . . . f 2 2 2 e d d e . . . . . 
+        . . . f 5 5 4 f e e f . . . . . 
+        . . . . f f f f f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . f f f f f f . . . . . . 
+        . . . f 2 f e e e e f f . . . . 
+        . . f 2 2 2 f e e e e f f . . . 
+        . . f e e e e f f e e e f . . . 
+        . f e 2 2 2 2 e e f f f f . . . 
+        . f 2 e f f f f 2 2 2 e f . . . 
+        . f f f e e e f f f f f f f . . 
+        . f e e 4 4 f b e 4 4 e f f . . 
+        . . f e d d f 1 4 d 4 e e f . . 
+        . . . f d d d e e e e e f . . . 
+        . . . f e 4 e d d 4 f . . . . . 
+        . . . f 2 2 e d d e f . . . . . 
+        . . f f 5 5 f e e f f f . . . . 
+        . . f f f f f f f f f f . . . . 
+        . . . f f f . . . f f . . . . . 
+        `,img`
+        . . . . f f f f f f . . . . . . 
+        . . . f 2 f e e e e f f . . . . 
+        . . f 2 2 2 f e e e e f f . . . 
+        . . f e e e e f f e e e f . . . 
+        . f e 2 2 2 2 e e f f f f . . . 
+        . f 2 e f f f f 2 2 2 e f . . . 
+        . f f f e e e f f f f f f f . . 
+        . f e e 4 4 f b e 4 4 e f f . . 
+        . . f e d d f 1 4 d 4 e e f . . 
+        . . . f d d d d 4 e e e f . . . 
+        . . . f e 4 4 4 e e f f . . . . 
+        . . . f 2 2 2 e d d 4 . . . . . 
+        . . . f 2 2 2 e d d e . . . . . 
+        . . . f 5 5 4 f e e f . . . . . 
+        . . . . f f f f f f . . . . . . 
+        . . . . . . f f f . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . f f f f f f . . . . . . 
+        . . . f 2 f e e e e f f . . . . 
+        . . f 2 2 2 f e e e e f f . . . 
+        . . f e e e e f f e e e f . . . 
+        . f e 2 2 2 2 e e f f f f . . . 
+        . f 2 e f f f f 2 2 2 e f . . . 
+        . f f f e e e f f f f f f f . . 
+        . f e e 4 4 f b e 4 4 e f f . . 
+        . . f e d d f 1 4 d 4 e e f . . 
+        . . . f d d d d 4 e e e f . . . 
+        . . . f e 4 4 4 e d d 4 . . . . 
+        . . . f 2 2 2 2 e d d e . . . . 
+        . . f f 5 5 4 4 f e e f . . . . 
+        . . f f f f f f f f f f . . . . 
+        . . . f f f . . . f f . . . . . 
+        `],
+    500,
+    true
+    )
+})
+controller.menu.onEvent(ControllerButtonEvent.Released, function () {
+    quest_1()
 })
 function Bizzaro_2 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.NPC)
@@ -3515,17 +3614,101 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.money7, function (sprite, otherS
     info.changeScoreBy(-10)
     bizzaro3()
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.money5, function (sprite, otherSprite) {
-    sprites.destroy(myEnemy, effects.disintegrate, 100)
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(5)
-    quest_8()
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.money8, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.Player, SpriteKind.money2, function (sprite, otherSprite) {
     sprites.destroy(myEnemy, effects.disintegrate, 100)
     sprites.destroy(MONEY, effects.disintegrate, 100)
     info.changeScoreBy(10)
-    quest_2()
+    quest_4()
+})
+sprites.onOverlap(SpriteKind.enemy3, SpriteKind.money5, function (sprite, otherSprite) {
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    info.changeScoreBy(-50)
+    info.changeLifeBy(0)
+    game.showLongText("try it again", DialogLayout.Top)
+    quest_7()
+})
+controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
+    animation.runImageAnimation(
+    MC,
+    [img`
+        . . . . . . f f f f f f . . . . 
+        . . . . f f e e e e f 2 f . . . 
+        . . . f f e e e e f 2 2 2 f . . 
+        . . . f e e e f f e e e e f . . 
+        . . . f f f f e e 2 2 2 2 e f . 
+        . . . f e 2 2 2 f f f f e 2 f . 
+        . . f f f f f f f e e e f f f . 
+        . . f f e 4 4 e b f 4 4 e e f . 
+        . . f e e 4 d 4 1 f d d e f . . 
+        . . . f e e e 4 d d d d f . . . 
+        . . . . f f e e 4 4 4 e f . . . 
+        . . . . . 4 d d e 2 2 2 f . . . 
+        . . . . . e d d e 2 2 2 f . . . 
+        . . . . . f e e f 4 5 5 f . . . 
+        . . . . . . f f f f f f . . . . 
+        . . . . . . . f f f . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f f f . . . . 
+        . . . . f f e e e e f 2 f . . . 
+        . . . f f e e e e f 2 2 2 f . . 
+        . . . f e e e f f e e e e f . . 
+        . . . f f f f e e 2 2 2 2 e f . 
+        . . . f e 2 2 2 f f f f e 2 f . 
+        . . f f f f f f f e e e f f f . 
+        . . f f e 4 4 e b f 4 4 e e f . 
+        . . f e e 4 d 4 1 f d d e f . . 
+        . . . f e e e e e d d d f . . . 
+        . . . . . f 4 d d e 4 e f . . . 
+        . . . . . f e d d e 2 2 f . . . 
+        . . . . f f f e e f 5 5 f f . . 
+        . . . . f f f f f f f f f f . . 
+        . . . . . f f . . . f f f . . . 
+        `,img`
+        . . . . . . f f f f f f . . . . 
+        . . . . f f e e e e f 2 f . . . 
+        . . . f f e e e e f 2 2 2 f . . 
+        . . . f e e e f f e e e e f . . 
+        . . . f f f f e e 2 2 2 2 e f . 
+        . . . f e 2 2 2 f f f f e 2 f . 
+        . . f f f f f f f e e e f f f . 
+        . . f f e 4 4 e b f 4 4 e e f . 
+        . . f e e 4 d 4 1 f d d e f . . 
+        . . . f e e e 4 d d d d f . . . 
+        . . . . f f e e 4 4 4 e f . . . 
+        . . . . . 4 d d e 2 2 2 f . . . 
+        . . . . . e d d e 2 2 2 f . . . 
+        . . . . . f e e f 4 5 5 f . . . 
+        . . . . . . f f f f f f . . . . 
+        . . . . . . . f f f . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . f f f f f f . . . . 
+        . . . . f f e e e e f 2 f . . . 
+        . . . f f e e e e f 2 2 2 f . . 
+        . . . f e e e f f e e e e f . . 
+        . . . f f f f e e 2 2 2 2 e f . 
+        . . . f e 2 2 2 f f f f e 2 f . 
+        . . f f f f f f f e e e f f f . 
+        . . f f e 4 4 e b f 4 4 e e f . 
+        . . f e e 4 d 4 1 f d d e f . . 
+        . . . f e e e 4 d d d d f . . . 
+        . . . . 4 d d e 4 4 4 e f . . . 
+        . . . . e d d e 2 2 2 2 f . . . 
+        . . . . f e e f 4 4 5 5 f f . . 
+        . . . . f f f f f f f f f f . . 
+        . . . . . f f . . . f f f . . . 
+        `],
+    500,
+    true
+    )
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.enemy4, function (sprite, otherSprite) {
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    sprites.destroy(MC, effects.disintegrate, 100)
+    sprites.destroy(myEnemy, effects.disintegrate, 100)
+    info.changeScoreBy(5)
+    quest_5()
 })
 function kin_quest_5 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
@@ -3937,8 +4120,12 @@ function kin_quest_5 () {
     myEnemy.setPosition(-1, 94)
     myEnemy.follow(MONEY, 95)
 }
-controller.menu.onEvent(ControllerButtonEvent.Repeated, function () {
-    quest_1()
+sprites.onOverlap(SpriteKind.enemy2, SpriteKind.money4, function (sprite, otherSprite) {
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    info.changeScoreBy(-50)
+    info.changeLifeBy(-2)
+    game.showLongText("try it again", DialogLayout.Top)
+    quest_5()
 })
 sprites.onOverlap(SpriteKind.kinenemy2, SpriteKind.Player, function (sprite, otherSprite) {
     sprites.destroy(MONEY, effects.disintegrate, 100)
@@ -3951,12 +4138,6 @@ sprites.onOverlap(SpriteKind.kinenemy2, SpriteKind.money4, function (sprite, oth
     sprites.destroyAllSpritesOfKind(SpriteKind.kinenemy2, effects.spray, 100)
     sprites.destroyAllSpritesOfKind(SpriteKind.kinenemy2, effects.spray, 100)
     kin_quest_6()
-})
-sprites.onOverlap(SpriteKind.enemy4, SpriteKind.money6, function (sprite, otherSprite) {
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    Bizzaro_2()
-    sprites.destroy(myEnemy, effects.disintegrate, 100)
-    info.changeScoreBy(-80)
 })
 function quest_6 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
@@ -4093,96 +4274,16 @@ function quest_6 () {
     game.showLongText("Money isn't real", DialogLayout.Top)
     game.gameOver(true)
 }
-sprites.onOverlap(SpriteKind.enemy3, SpriteKind.money5, function (sprite, otherSprite) {
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(-50)
-    info.changeLifeBy(0)
-    game.showLongText("try it again", DialogLayout.Top)
-    quest_7()
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    MC.y += 20
+    pause(100)
+    MC.y = 86
 })
-controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    MC,
-    [img`
-        . . . . f f f f f f . . . . . . 
-        . . . f 2 f e e e e f f . . . . 
-        . . f 2 2 2 f e e e e f f . . . 
-        . . f e e e e f f e e e f . . . 
-        . f e 2 2 2 2 e e f f f f . . . 
-        . f 2 e f f f f 2 2 2 e f . . . 
-        . f f f e e e f f f f f f f . . 
-        . f e e 4 4 f b e 4 4 e f f . . 
-        . . f e d d f 1 4 d 4 e e f . . 
-        . . . f d d d d 4 e e e f . . . 
-        . . . f e 4 4 4 e e f f . . . . 
-        . . . f 2 2 2 e d d 4 . . . . . 
-        . . . f 2 2 2 e d d e . . . . . 
-        . . . f 5 5 4 f e e f . . . . . 
-        . . . . f f f f f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . f f f f f f . . . . . . 
-        . . . f 2 f e e e e f f . . . . 
-        . . f 2 2 2 f e e e e f f . . . 
-        . . f e e e e f f e e e f . . . 
-        . f e 2 2 2 2 e e f f f f . . . 
-        . f 2 e f f f f 2 2 2 e f . . . 
-        . f f f e e e f f f f f f f . . 
-        . f e e 4 4 f b e 4 4 e f f . . 
-        . . f e d d f 1 4 d 4 e e f . . 
-        . . . f d d d e e e e e f . . . 
-        . . . f e 4 e d d 4 f . . . . . 
-        . . . f 2 2 e d d e f . . . . . 
-        . . f f 5 5 f e e f f f . . . . 
-        . . f f f f f f f f f f . . . . 
-        . . . f f f . . . f f . . . . . 
-        `,img`
-        . . . . f f f f f f . . . . . . 
-        . . . f 2 f e e e e f f . . . . 
-        . . f 2 2 2 f e e e e f f . . . 
-        . . f e e e e f f e e e f . . . 
-        . f e 2 2 2 2 e e f f f f . . . 
-        . f 2 e f f f f 2 2 2 e f . . . 
-        . f f f e e e f f f f f f f . . 
-        . f e e 4 4 f b e 4 4 e f f . . 
-        . . f e d d f 1 4 d 4 e e f . . 
-        . . . f d d d d 4 e e e f . . . 
-        . . . f e 4 4 4 e e f f . . . . 
-        . . . f 2 2 2 e d d 4 . . . . . 
-        . . . f 2 2 2 e d d e . . . . . 
-        . . . f 5 5 4 f e e f . . . . . 
-        . . . . f f f f f f . . . . . . 
-        . . . . . . f f f . . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . f f f f f f . . . . . . 
-        . . . f 2 f e e e e f f . . . . 
-        . . f 2 2 2 f e e e e f f . . . 
-        . . f e e e e f f e e e f . . . 
-        . f e 2 2 2 2 e e f f f f . . . 
-        . f 2 e f f f f 2 2 2 e f . . . 
-        . f f f e e e f f f f f f f . . 
-        . f e e 4 4 f b e 4 4 e f f . . 
-        . . f e d d f 1 4 d 4 e e f . . 
-        . . . f d d d d 4 e e e f . . . 
-        . . . f e 4 4 4 e d d 4 . . . . 
-        . . . f 2 2 2 2 e d d e . . . . 
-        . . f f 5 5 4 4 f e e f . . . . 
-        . . f f f f f f f f f f . . . . 
-        . . . f f f . . . f f . . . . . 
-        `],
-    500,
-    true
-    )
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.money6, function (sprite, otherSprite) {
-    sprites.destroy(myEnemy, effects.disintegrate, 100)
-    sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(5)
-    quest_5()
+info.onLifeZero(function () {
+    game.gameOver(false)
 })
 function kin_quest_7 () {
+    sprites.destroyAllSpritesOfKind(SpriteKind.Gambler)
     sprites.destroyAllSpritesOfKind(SpriteKind.Player)
     sprites.destroyAllSpritesOfKind(SpriteKind.kinenemy2, effects.spray, 100)
     sprites.destroyAllSpritesOfKind(SpriteKind.enemy5, effects.spray, 100)
@@ -4317,7 +4418,10 @@ function kin_quest_7 () {
         `)
     scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyHorizontal, scroller.BackgroundLayer.Layer0)
     scroller.scrollBackgroundWithSpeed(-50, 0, scroller.BackgroundLayer.Layer0)
-    game.showLongText("press B to start and when your all done press menu 2 times", DialogLayout.Bottom)
+    game.showLongText("walk up to the monkey when your all done press menu 2 time", DialogLayout.Bottom)
+    game.showLongText("also what number do you like more 8 or 4?", DialogLayout.Bottom)
+    story.showPlayerChoices("8", "4")
+    game.showLongText("I like 500", DialogLayout.Top)
     MC = sprites.create(img`
         . . . . . . f f f f . . . . . . 
         . . . . f f f 2 2 f f f . . . . 
@@ -4336,7 +4440,7 @@ function kin_quest_7 () {
         . . . . . f f f f f f . . . . . 
         . . . . . f f . . f f . . . . . 
         `, SpriteKind.Player)
-    MC.setPosition(2, 86)
+    MC.setPosition(2, 106)
     controller.moveSprite(MC, 100, 0)
     animation.setAction(MC, ActionKind.Jumping)
     Info_ghost = sprites.create(img`
@@ -4551,126 +4655,7 @@ function kin_quest_7 () {
     true
     )
     myEnemy.setPosition(145, 86)
-    if (controller.B.isPressed()) {
-        story.printText("BEGIN", 78, 50, 15, 5, story.TextSpeed.VeryFast)
-        pause(1000)
-        story.showPlayerChoices("rock", "paper", "scissors")
-        info.startCountdown(5)
-    } else if (story.checkLastAnswer("rock")) {
-        game.showLongText("Rock", DialogLayout.Top)
-        rps = randint(1, 3)
-        if ((1 == 1) < (rps == 3)) {
-            info.changeScoreBy(-1000000)
-            kin_quest_7()
-        } else if (1 == 1 == (rps == 1)) {
-            info.changeScoreBy(0)
-            kin_quest_7()
-        } else if ((1 == 1) > (rps == 2)) {
-            info.changeScoreBy(1000000)
-            kin_quest_7()
-        }
-    } else if (story.checkLastAnswer("paper")) {
-        game.showLongText("paper", DialogLayout.Top)
-        if ((2 == 2) < (rps == 1)) {
-            info.changeScoreBy(-1000000)
-            kin_quest_7()
-        } else if (2 == 2 == (rps == 2)) {
-            info.changeScoreBy(0)
-            kin_quest_7()
-        } else if ((2 == 2) > (rps == 3)) {
-            info.changeScoreBy(1000000)
-            kin_quest_7()
-        }
-    } else if (story.checkLastAnswer("scissors")) {
-        rps = randint(1, 3)
-        if ((1 == 1) < (rps == 2)) {
-            info.changeScoreBy(-1000000)
-            kin_quest_7()
-        } else if (1 == 1 == (rps == 1)) {
-            info.changeScoreBy(0)
-            kin_quest_7()
-        } else if ((1 == 1) > (rps == 3)) {
-            info.changeScoreBy(1000000)
-            kin_quest_7()
-        }
-    }
 }
-controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
-    animation.runImageAnimation(
-    MC,
-    [img`
-        . . . . . . f f f f f f . . . . 
-        . . . . f f e e e e f 2 f . . . 
-        . . . f f e e e e f 2 2 2 f . . 
-        . . . f e e e f f e e e e f . . 
-        . . . f f f f e e 2 2 2 2 e f . 
-        . . . f e 2 2 2 f f f f e 2 f . 
-        . . f f f f f f f e e e f f f . 
-        . . f f e 4 4 e b f 4 4 e e f . 
-        . . f e e 4 d 4 1 f d d e f . . 
-        . . . f e e e 4 d d d d f . . . 
-        . . . . f f e e 4 4 4 e f . . . 
-        . . . . . 4 d d e 2 2 2 f . . . 
-        . . . . . e d d e 2 2 2 f . . . 
-        . . . . . f e e f 4 5 5 f . . . 
-        . . . . . . f f f f f f . . . . 
-        . . . . . . . f f f . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f f f . . . . 
-        . . . . f f e e e e f 2 f . . . 
-        . . . f f e e e e f 2 2 2 f . . 
-        . . . f e e e f f e e e e f . . 
-        . . . f f f f e e 2 2 2 2 e f . 
-        . . . f e 2 2 2 f f f f e 2 f . 
-        . . f f f f f f f e e e f f f . 
-        . . f f e 4 4 e b f 4 4 e e f . 
-        . . f e e 4 d 4 1 f d d e f . . 
-        . . . f e e e e e d d d f . . . 
-        . . . . . f 4 d d e 4 e f . . . 
-        . . . . . f e d d e 2 2 f . . . 
-        . . . . f f f e e f 5 5 f f . . 
-        . . . . f f f f f f f f f f . . 
-        . . . . . f f . . . f f f . . . 
-        `,img`
-        . . . . . . f f f f f f . . . . 
-        . . . . f f e e e e f 2 f . . . 
-        . . . f f e e e e f 2 2 2 f . . 
-        . . . f e e e f f e e e e f . . 
-        . . . f f f f e e 2 2 2 2 e f . 
-        . . . f e 2 2 2 f f f f e 2 f . 
-        . . f f f f f f f e e e f f f . 
-        . . f f e 4 4 e b f 4 4 e e f . 
-        . . f e e 4 d 4 1 f d d e f . . 
-        . . . f e e e 4 d d d d f . . . 
-        . . . . f f e e 4 4 4 e f . . . 
-        . . . . . 4 d d e 2 2 2 f . . . 
-        . . . . . e d d e 2 2 2 f . . . 
-        . . . . . f e e f 4 5 5 f . . . 
-        . . . . . . f f f f f f . . . . 
-        . . . . . . . f f f . . . . . . 
-        `,img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . f f f f f f . . . . 
-        . . . . f f e e e e f 2 f . . . 
-        . . . f f e e e e f 2 2 2 f . . 
-        . . . f e e e f f e e e e f . . 
-        . . . f f f f e e 2 2 2 2 e f . 
-        . . . f e 2 2 2 f f f f e 2 f . 
-        . . f f f f f f f e e e f f f . 
-        . . f f e 4 4 e b f 4 4 e e f . 
-        . . f e e 4 d 4 1 f d d e f . . 
-        . . . f e e e 4 d d d d f . . . 
-        . . . . 4 d d e 4 4 4 e f . . . 
-        . . . . e d d e 2 2 2 2 f . . . 
-        . . . . f e e f 4 4 5 5 f f . . 
-        . . . . f f f f f f f f f f . . 
-        . . . . . f f . . . f f f . . . 
-        `],
-    500,
-    true
-    )
-})
 function quest_1 () {
     scene.setBackgroundImage(img`
         eeeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeaaaabbaaaaeeaaaaaaaeeeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeaaaaaeeeeaaaeeaeeeeeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaeeaaa
@@ -4830,6 +4815,12 @@ function quest_1 () {
     info.setLife(5)
     quest_2()
 }
+sprites.onOverlap(SpriteKind.enemy4, SpriteKind.money6, function (sprite, otherSprite) {
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    Bizzaro_2()
+    sprites.destroy(myEnemy, effects.disintegrate, 100)
+    info.changeScoreBy(-80)
+})
 function bizzaro3 () {
     sprites.destroyAllSpritesOfKind(SpriteKind.NPC)
     sprites.destroyAllSpritesOfKind(SpriteKind.Money, effects.spray, 100)
@@ -5235,17 +5226,26 @@ function bizzaro3 () {
     myEnemy.setPosition(-3, -2)
     myEnemy.follow(MC, 40)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.money2, function (sprite, otherSprite) {
+sprites.onDestroyed(SpriteKind.money3, function (sprite) {
+    quest_6()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.money5, function (sprite, otherSprite) {
     sprites.destroy(myEnemy, effects.disintegrate, 100)
     sprites.destroy(MONEY, effects.disintegrate, 100)
-    info.changeScoreBy(10)
-    quest_4()
+    info.changeScoreBy(5)
+    quest_8()
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(MONEY, effects.disintegrate, 100)
+    quest_2()
+    info.changeScoreBy(-10)
+    info.changeLifeBy(-1)
 })
 let rps = 0
+let MONEY: Sprite = null
 let myEnemy: Sprite = null
 let Info_ghost: Sprite = null
 let MC: Sprite = null
-let MONEY: Sprite = null
 scene.setBackgroundColor(1)
 scene.setBackgroundColor(15)
 scene.setBackgroundImage(img`
